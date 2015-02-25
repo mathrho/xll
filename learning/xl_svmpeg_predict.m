@@ -50,7 +50,7 @@ if strcmp(type, 'onevsall')
     
     display(['Mean AP:  ' num2str(mean(ap))]) ;
     if size(labels, 1) == 1 || size(labels, 2) == 1
-        idx = sub2ind([max(svmmodel.Label), max(svmmodel.Label)], vec(labels), vec(pred)) ;
+        idx = sub2ind([max(svmmodel.Label), max(svmmodel.Label)], xl_vec(labels), xl_vec(pred)) ;
         confus = zeros(max(svmmodel.Label)) ;
         confus = vl_binsum(confus, ones(size(idx)), idx) ;
         
@@ -60,12 +60,12 @@ if strcmp(type, 'onevsall')
         display(['Accuracy: ' num2str(mean(acc))]) ; 
     else
         %[fr labelsUni] = find(labels) ;
-        %idx = sub2ind([max(svmmodel.Label), max(svmmodel.Label)], vec(labelsUni), vec(pred)) ;
+        %idx = sub2ind([max(svmmodel.Label), max(svmmodel.Label)], xl_vec(labelsUni), xl_vec(pred)) ;
         %confus = zeros(max(svmmodel.Label)) ;
         %confus = vl_binsum(confus, ones(size(idx)), idx) ;
         
         pred0 = zeros(size(labels)) ;
-        pred0(sub2ind(size(labels), vec(1 : size(labels, 1)), pred)) = 1 ;
+        pred0(sub2ind(size(labels), xl_vec(1 : size(labels, 1)), pred)) = 1 ;
         pred0 = sum(pred0 .* labels, 2) ;
         corr = sum(pred0 > 0) ;
         acc = corr ./ sum(pred0 ~= 0) ;
